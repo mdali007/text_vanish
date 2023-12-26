@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Writing App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        #text-input {
+            width: 80%;
+            height: 200px;
+            margin: 20px auto;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Online Writing App</h1>
+    <form method="post" action="{{ url_for('update_text') }}">
+        <textarea id="text-input" name="text" placeholder="Start typing..." oninput="this.form.submit()"></textarea>
+    </form>
+    <div id="display-text"></div>
+    <script>
+        function getText() {
+            fetch("/get_text")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("display-text").innerText = "Current Text: " + data.text;
+                });
+        }
+
+        setInterval(getText, 1000);  // Update every 1 second
+    </script>
+</body>
+</html>
